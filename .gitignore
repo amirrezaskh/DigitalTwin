@@ -34,3 +34,4 @@ install-fabric.sh
 !full-stack-asset-transfer-guide/infrastructure/sample-network/config
 
 asset-transfer-basic/
+models/
