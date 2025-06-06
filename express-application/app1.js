@@ -39,6 +39,7 @@ const peerHostAlias = "peer0.org1.example.com";
 
 const contractModels = InitConnection("main", "modelsCC");
 const axios = require("axios");
+const { start } = require("node:repl");
 
 async function newGrpcConnection() {
     const tlsRootCert = await fs.readFile(tlsCertPath);
@@ -104,6 +105,49 @@ async function InitConnection(channelName, chaincodeName) {
     return network.getContract(chaincodeName);
 }
 
+async function callAggregator() {
+	const models = await modelApp.getAllModels(contractModel);
+	await axios({
+		method: "post",
+		url: `http://localhost:${aggregatorPort}/aggregate/`,
+		headers: {},
+		data: {
+			models: models,
+		},
+	});
+    await startRound();
+}
+
+async function startRound() {
+    currentRound += 1;
+    if (currentRound <= rounds) {
+        for (let i = 0; i < numNodes; i++) {
+            axios({
+                method: 'get',
+                url: `http://localhost:${8000 + i}/train/`,
+                headers: {}
+            });
+        }
+        console.log(`*** Round ${currentRound} STARTED ***`);
+        console.log("Training started.");
+    } else {
+        await axios.get(`http://localhost:${aggregatorPort}/losses/`);
+        console.log("All rounds completed.");
+        exec('python3 ../stop.py', (error, stdout, stderr) => {
+            if (error) {
+              console.error(`Error: ${error.message}`);
+              return;
+            }
+            if (stderr) {
+              console.error(`stderr: ${stderr}`);
+              return;
+            }
+            console.log(`stdout: ${stdout}`);
+          });
+        currentRound = 0;
+    }
+}
+
 app.get('/', (req, res) => {
     res.send("Hello World!.");
 });
@@ -121,7 +165,7 @@ app.post('/api/models/ledger/', async (req, res) => {
 app.post('/api/model/', jsonParser, async (req, res) => {
     const respond = await modelApp.createModel(contractModels, req.body.id, req.body.path);
     if (respond === true) {
-        console.log("All models are created.")
+        setTimeout(callAggregator, 1)
     }
     res.send("Model was created successfully.");
 });
@@ -135,6 +179,11 @@ app.get('/api/models/', async (req, res) => {
     const message = await modelApp.getAllModels(contractModels);
     res.send(message);
 });
+
+app.get('/api/start/', async (req, res) => {
+    await startRound();
+    res.send("Rounds started.")
+})
 
 app.listen(port, () => {
     console.log(`Server is listening on localhost:${port}.\n`);

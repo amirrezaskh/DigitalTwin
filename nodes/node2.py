@@ -5,16 +5,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from fl.node import Node
 
 port = 8002
+data_path = "./data/rooms/F1_R3.csv"
 futures = {}
 executer = concurrent.futures.ThreadPoolExecutor(2)
-node = Node()
+node = Node(port, data_path)
 app = Flask(__name__)
 
 
-@app.route("/client/train/")
+@app.route("/train/")
 def train_client():
-    node.train()
-    # executer.submit(node.train)
+    executer.submit(node.train)
     return "The node started training!"
 
 

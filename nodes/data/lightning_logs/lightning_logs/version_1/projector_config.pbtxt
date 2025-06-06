@@ -1,0 +1,20 @@
+embeddings {
+  tensor_name: "room_id:00150"
+  metadata_path: "00150/room_id/metadata.tsv"
+  tensor_path: "00150/room_id/tensors.tsv"
+}
+embeddings {
+  tensor_name: "hour:00150"
+  metadata_path: "00150/hour/metadata.tsv"
+  tensor_path: "00150/hour/tensors.tsv"
+}
+embeddings {
+  tensor_name: "day:00150"
+  metadata_path: "00150/day/metadata.tsv"
+  tensor_path: "00150/day/tensors.tsv"
+}
+embeddings {
+  tensor_name: "month:00150"
+  metadata_path: "00150/month/metadata.tsv"
+  tensor_path: "00150/month/tensors.tsv"
+}
