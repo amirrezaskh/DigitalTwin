@@ -1,12 +1,25 @@
  * Serving Flask app 'aggregator'
  * Debug mode: on
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://localhost:5050
+ * Running on http://localhost:8080
 [33mPress CTRL+C to quit[0m
  * Restarting with stat
  * Debugger is active!
- * Debugger PIN: 868-625-521
- * Detected change in '/Users/amirrezasokhankhosh/Documents/Workstation/DigitalTwin/nodes/aggregator.py', reloading
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 868-625-521
+ * Debugger PIN: 256-579-823
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'loss' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['loss'])`.
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'logging_metrics' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['logging_metrics'])`.
+Using default `ModelCheckpoint`. Consider installing `litmodels` package to enable `LitModelCheckpoint` for automatic upload to the Lightning model registry.
+GPU available: True (mps), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:425: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+127.0.0.1 - - [28/Jul/2025 13:19:49] "POST /aggregate/ HTTP/1.1" 200 -
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'loss' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['loss'])`.
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/utilities/parsing.py:209: Attribute 'logging_metrics' is an instance of `nn.Module` and is already saved during checkpointing. It is recommended to ignore them using `self.save_hyperparameters(ignore=['logging_metrics'])`.
+Using default `ModelCheckpoint`. Consider installing `litmodels` package to enable `LitModelCheckpoint` for automatic upload to the Lightning model registry.
+GPU available: True (mps), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/Users/amirrezasokhankhosh/mambaforge/envs/flask/lib/python3.12/site-packages/lightning/pytorch/trainer/connectors/data_connector.py:425: The 'predict_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+127.0.0.1 - - [28/Jul/2025 13:23:08] "POST /aggregate/ HTTP/1.1" 200 -
+127.0.0.1 - - [28/Jul/2025 13:23:08] "GET /losses/ HTTP/1.1" 200 -

@@ -4,6 +4,7 @@ import warnings
 import requests
 import matplotlib
 matplotlib.use("Agg")
+import numpy as np
 import pandas as pd
 from pathlib import Path
 import lightning.pytorch as pl
@@ -17,9 +18,10 @@ from pytorch_forecasting import TimeSeriesDataSet, TemporalFusionTransformer
 class Node:
     def __init__(self, port, data_path):
         self.port = port
+        self.targets = ["temprature_value", "humidity_value", "co2_value"]
 
-        self.max_encoder_length = 23 * 24
-        self.max_prediction_length = 24
+        self.max_encoder_length = 4 * 10
+        self.max_prediction_length = 4 * 2
 
         self.lr = 3e-4
         self.epochs = 5
@@ -42,43 +44,49 @@ class Node:
             attention_head_size=1,
             dropout=0.1,
             loss=torch.nn.MSELoss(),
-            output_size=[1, 1, 1, 1],
+            output_size=[1, 1, 1],
             log_interval=10,
             reduce_on_plateau_patience=4,
         )
 
     def get_data(self):
         df = pd.read_csv(self.data_path)
-        df["hour"] = df["hour"].astype(str)
-        df["day"] = df["day"].astype(str)
-        df["month"] = df["month"].astype(str)
+
+        df["room_id"] = df["room_id"].astype(str)
+        df["hours"] = df["hours"].astype(str)
+        df["days"] = df["days"].astype(str)
+        df["months"] = df["months"].astype(str)
+        for col in self.targets:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
         df = df.sort_values(["room_id", "timestamp"]).reset_index(drop=True)
         df["time_idx"] = df.groupby("room_id").cumcount()
         training_cutoff = df["time_idx"].max() - self.max_prediction_length
 
+        df = df.replace([np.inf, -np.inf], np.nan)
+        for col in self.targets:
+            df[col] = df[col].interpolate(method="linear")
+
+
         self.train_dataset = TimeSeriesDataSet(
             df[lambda x: x.time_idx <= training_cutoff],
             time_idx="time_idx",
-            target=["humidity", "temperature", "co2", "electricity"],
+            target=self.targets,
             group_ids=["room_id"],
             min_encoder_length=self.max_encoder_length,
             max_encoder_length=self.max_encoder_length,
             max_prediction_length=self.max_prediction_length,
             static_categoricals=["room_id"],
-            static_reals=["area", "num_windows", "window_area"],
-            time_varying_known_categoricals=["hour", "day", "month"],
+            static_reals=["area", "doors_area", "panels_area"],
+            time_varying_known_categoricals=["hours", "days", "months"],
             time_varying_known_reals=["time_idx"],
-            time_varying_unknown_reals=["humidity",
-                                        "temperature", "co2", "electricity"],
+            time_varying_unknown_reals=self.targets,
             target_normalizer=MultiNormalizer([
                 EncoderNormalizer(method='standard', center=True,
-                                  max_length=None, transformation=None, method_kwargs={}),
+                                max_length=None, transformation=None, method_kwargs={}),
                 EncoderNormalizer(method='standard', center=True,
-                                  max_length=None, transformation=None, method_kwargs={}),
+                                max_length=None, transformation=None, method_kwargs={}),
                 EncoderNormalizer(method='standard', center=True,
-                                  max_length=None, transformation=None, method_kwargs={}),
-                EncoderNormalizer(method='standard', center=True,
-                                  max_length=None, transformation=None, method_kwargs={})
+                                max_length=None, transformation=None, method_kwargs={})
             ]),
             add_relative_time_idx=True,
             add_target_scales=True,
@@ -106,7 +114,7 @@ class Node:
             monitor="val_loss", min_delta=1e-4, patience=10, verbose=False, mode="min"
         )
         lr_logger = LearningRateMonitor()
-        logger = TensorBoardLogger(f"models/node {self.port-8000}/")
+        logger = TensorBoardLogger(f"./models/node_{self.port-8000}/")
 
         trainer = pl.Trainer(
             max_epochs=self.epochs,

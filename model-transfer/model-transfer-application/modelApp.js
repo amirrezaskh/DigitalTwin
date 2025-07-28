@@ -35,7 +35,6 @@ class ModelApp {
                 const resString = this.utf8decoder.decode(resBytes);
                 return JSON.parse(resString);
             } catch (error) {
-                console.log(error)
                 tries = tries - 1;
                 await new Promise(resolve => setTimeout(resolve, 100));
             }

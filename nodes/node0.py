@@ -6,9 +6,9 @@ from fl.node import Node
 
 
 port = 8000
-data_path = "./data/rooms/F1_R1.csv"
+data_path = "./data/DTFL - Data/227-Table 1.csv"
 futures = {}
-executer = concurrent.futures.ThreadPoolExecutor(2)
+executer = concurrent.futures.ThreadPoolExecutor(3)
 node = Node(port, data_path)
 app = Flask(__name__)
 

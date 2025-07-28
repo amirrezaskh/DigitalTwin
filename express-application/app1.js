@@ -12,7 +12,7 @@ const port = 3000;
 
 const rounds = 2;
 let currentRound = 0;
-const aggregatorPort = 5050;
+const aggregatorPort = 8080;
 const numNodes = 4;
 
 const crypto = require("crypto");
@@ -106,7 +106,7 @@ async function InitConnection(channelName, chaincodeName) {
 }
 
 async function callAggregator() {
-	const models = await modelApp.getAllModels(contractModel);
+	const models = await modelApp.getAllModels(contractModels);
 	await axios({
 		method: "post",
 		url: `http://localhost:${aggregatorPort}/aggregate/`,
@@ -164,7 +164,9 @@ app.post('/api/models/ledger/', async (req, res) => {
 
 app.post('/api/model/', jsonParser, async (req, res) => {
     const respond = await modelApp.createModel(contractModels, req.body.id, req.body.path);
+    console.log(respond)
     if (respond === true) {
+        console.log("here")
         setTimeout(callAggregator, 1)
     }
     res.send("Model was created successfully.");

@@ -16,13 +16,14 @@ class ModelTransfer extends Contract {
     }
 
     async UpdateModelsInfo(ctx) {
-        const modelsInfoBinary = await ctx.stub.getState("modelsInfo");
-        const modelsInfoString = modelsInfoBinary.toString();
-        const modelsInfo = JSON.parse(modelsInfoString);
+        const modelsInfoBytes = await ctx.stub.getState("modelsInfo");
+        const modelsInfoString = modelsInfoBytes.toString();
+        let modelsInfo = JSON.parse(modelsInfoString);
         modelsInfo.remaining = modelsInfo.remaining - 1;
-        if (modelsInfo.remaining === modelsInfo.numNodes) {
+        if (modelsInfo.remaining === 0) {
             modelsInfo.remaining = modelsInfo.numNodes;
         }
+        await ctx.stub.putState(modelsInfo.id, Buffer.from(JSON.stringify(modelsInfo)));
         return modelsInfo.remaining === modelsInfo.numNodes;
     }
 
