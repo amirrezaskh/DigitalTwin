@@ -33,7 +33,7 @@ def run_node(i):
         )
 
 if __name__ == "__main__":
-    num_nodes = 4
+    num_nodes = 8
     cwd = os.path.dirname(__file__)
 
     stop_nodes(num_nodes)

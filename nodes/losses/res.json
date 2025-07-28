@@ -1,12 +1,12 @@
 [
   {
-    "temprature_value": 0.4046609699726105,
-    "humidity_value": 2.6919362545013428,
-    "co2_value": 19.755151748657227
+    "temprature_value": 0.3941185474395752,
+    "humidity_value": 3.702428102493286,
+    "co2_value": 29.318998336791992
   },
   {
-    "temprature_value": 0.3833097517490387,
-    "humidity_value": 2.5714914798736572,
-    "co2_value": 13.54608154296875
+    "temprature_value": 0.38653531670570374,
+    "humidity_value": 3.6526272296905518,
+    "co2_value": 23.72034454345703
   }
 ]

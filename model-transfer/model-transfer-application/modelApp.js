@@ -28,7 +28,7 @@ class ModelApp {
         }
     }
 
-    async createModel(contract, id, path, tries=5) {
+    async createModel(contract, id, path, tries=10) {
         while (tries != 0) {
             try {
                 const resBytes = await (await contract).submitTransaction("CreateModel", id, path);

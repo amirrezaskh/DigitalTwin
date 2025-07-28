@@ -4,8 +4,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from fl.node import Node
 
-port = 8003
-data_path = "./data/DTFL - Data/433-Table 1.csv"
+port = 8004
+data_path = "./data/DTFL - Data/353-Table 1.csv"
 futures = {}
 executer = concurrent.futures.ThreadPoolExecutor(3)
 node = Node(port, data_path)

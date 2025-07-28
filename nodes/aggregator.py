@@ -3,7 +3,7 @@ from global_var import *
 
 class Aggregator:
     def __init__(self):
-        self.data_path = "./data/DTFL - Data/352-Table 1.csv"
+        self.data_path = "./data/DTFL - Data/227-Table 1.csv"
         self.targets = ["temprature_value", "humidity_value", "co2_value"]
         self.losses = []
         self.losses_file = "./losses/res.json"

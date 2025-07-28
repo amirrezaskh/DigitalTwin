@@ -13,7 +13,7 @@ const port = 3000;
 const rounds = 2;
 let currentRound = 0;
 const aggregatorPort = 8080;
-const numNodes = 4;
+const numNodes = 8;
 
 const crypto = require("crypto");
 const grpc = require("@grpc/grpc-js");
@@ -164,10 +164,8 @@ app.post('/api/models/ledger/', async (req, res) => {
 
 app.post('/api/model/', jsonParser, async (req, res) => {
     const respond = await modelApp.createModel(contractModels, req.body.id, req.body.path);
-    console.log(respond)
     if (respond === true) {
-        console.log("here")
-        setTimeout(callAggregator, 1)
+        setTimeout(callAggregator, 1);
     }
     res.send("Model was created successfully.");
 });

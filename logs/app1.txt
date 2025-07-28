@@ -2,16 +2,6 @@ Server is listening on localhost:3000.
 
 *** Round 1 STARTED ***
 Training started.
-false
-false
-false
-true
-here
 *** Round 2 STARTED ***
 Training started.
-false
-false
-false
-true
-here
 All rounds completed.
