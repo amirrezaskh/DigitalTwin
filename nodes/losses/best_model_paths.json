@@ -1,0 +1,34 @@
+[
+    {
+        "id": "model_0",
+        "path": "./models/node_0/lightning_logs/version_80/checkpoints/epoch=19-step=2960.ckpt"
+    },
+    {
+        "id": "model_1",
+        "path": "./models/node_1/lightning_logs/version_76/checkpoints/epoch=10-step=1628.ckpt"
+    },
+    {
+        "id": "model_2",
+        "path": "./models/node_2/lightning_logs/version_80/checkpoints/epoch=10-step=1628.ckpt"
+    },
+    {
+        "id": "model_3",
+        "path": "./models/node_3/lightning_logs/version_80/checkpoints/epoch=12-step=1924.ckpt"
+    },
+    {
+        "id": "model_4",
+        "path": "./models/node_4/lightning_logs/version_77/checkpoints/epoch=19-step=2960.ckpt"
+    },
+    {
+        "id": "model_5",
+        "path": "./models/node_5/lightning_logs/version_77/checkpoints/epoch=11-step=1776.ckpt"
+    },
+    {
+        "id": "model_6",
+        "path": "./models/node_6/lightning_logs/version_77/checkpoints/epoch=19-step=2960.ckpt"
+    },
+    {
+        "id": "model_7",
+        "path": "./models/node_7/lightning_logs/version_77/checkpoints/epoch=19-step=2960.ckpt"
+    }
+]
