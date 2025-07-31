@@ -1,0 +1,32 @@
+[
+  {
+    "temprature_value": 0.07534044981002808,
+    "humidity_value": 1.7512933015823364,
+    "co2_value": 7.215062141418457
+  },
+  {
+    "temprature_value": 0.060225557535886765,
+    "humidity_value": 1.8448147773742676,
+    "co2_value": 6.979374885559082
+  },
+  {
+    "temprature_value": 0.058486051857471466,
+    "humidity_value": 1.6347934007644653,
+    "co2_value": 5.248627185821533
+  },
+  {
+    "temprature_value": 0.09028034657239914,
+    "humidity_value": 1.5410822629928589,
+    "co2_value": 4.624643802642822
+  },
+  {
+    "temprature_value": 0.039773162454366684,
+    "humidity_value": 1.7800850868225098,
+    "co2_value": 6.209133625030518
+  },
+  {
+    "temprature_value": 0.060885366052389145,
+    "humidity_value": 1.6732462644577026,
+    "co2_value": 6.015681743621826
+  }
+]

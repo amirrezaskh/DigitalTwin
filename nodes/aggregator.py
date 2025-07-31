@@ -10,9 +10,8 @@ class Aggregator:
         self.root_path = Path(__file__).resolve().parents[1]
 
         self.lr = 3e-4
-        self.batch_size = 1280
-        self.max_encoder_length = 4 * 10
-        self.max_prediction_length = 4 * 2
+        self.max_encoder_length = 4 * 24
+        self.max_prediction_length = 4* 3
 
         self.get_data()
 
@@ -67,10 +66,10 @@ class Aggregator:
         predictions = self.model.predict(self.test_dataloader, return_y=True)
         outputs = predictions.output
         y = predictions.y
-        mse = {}
+        rmse = {}
         for i in range(len(self.targets)):
-            mse[self.targets[i]] = MAE()(outputs[i], y[0][i]).item()
-        self.losses.append(mse)
+            rmse[self.targets[i]] = RMSE()(outputs[i], y[0][i]).item()
+        self.losses.append(rmse)
 
     def aggregate(self, model_blocks):
         models = [TemporalFusionTransformer.load_from_checkpoint(model_block["path"])

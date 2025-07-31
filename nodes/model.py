@@ -3,8 +3,8 @@ from global_var import *
 
 lr = 3e-4
 data_path = "./data/DTFL - Data/227-Table 1.csv"
-max_encoder_length = 4 * 10
-max_prediction_length = 4 * 2
+max_encoder_length = 4 * 24
+max_prediction_length = 4 * 3
 
 df = pd.read_csv(data_path)
 
@@ -53,10 +53,10 @@ train_dataset = TimeSeriesDataSet(
 model = TemporalFusionTransformer.from_dataset(
     train_dataset,
     learning_rate=lr,
-    hidden_size=16,
-    attention_head_size=1,
-    dropout=0.1,
-    loss=torch.nn.MSELoss(),
+    hidden_size=32,
+    attention_head_size=4,
+    dropout=0.2,
+    loss=MultiLoss([RMSE(), RMSE(), RMSE()]),
     output_size=[1, 1, 1],
     log_interval=10,
     reduce_on_plateau_patience=4,

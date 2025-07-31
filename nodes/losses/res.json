@@ -1,12 +1,52 @@
 [
   {
-    "temprature_value": 0.3941185474395752,
-    "humidity_value": 3.702428102493286,
-    "co2_value": 29.318998336791992
+    "temprature_value": 0.4285353720188141,
+    "humidity_value": 4.435513973236084,
+    "co2_value": 29.520090103149414
   },
   {
-    "temprature_value": 0.38653531670570374,
-    "humidity_value": 3.6526272296905518,
-    "co2_value": 23.72034454345703
+    "temprature_value": 0.420370876789093,
+    "humidity_value": 4.357119083404541,
+    "co2_value": 27.11212730407715
+  },
+  {
+    "temprature_value": 0.41491585969924927,
+    "humidity_value": 4.3030686378479,
+    "co2_value": 24.785879135131836
+  },
+  {
+    "temprature_value": 0.4103281497955322,
+    "humidity_value": 4.25985050201416,
+    "co2_value": 24.433313369750977
+  },
+  {
+    "temprature_value": 0.40188315510749817,
+    "humidity_value": 4.231777191162109,
+    "co2_value": 25.3302059173584
+  },
+  {
+    "temprature_value": 0.40056031942367554,
+    "humidity_value": 4.200657367706299,
+    "co2_value": 23.97091293334961
+  },
+  {
+    "temprature_value": 0.3977888524532318,
+    "humidity_value": 4.176127910614014,
+    "co2_value": 23.825115203857422
+  },
+  {
+    "temprature_value": 0.3979414999485016,
+    "humidity_value": 4.171037673950195,
+    "co2_value": 23.86783218383789
+  },
+  {
+    "temprature_value": 0.3974180519580841,
+    "humidity_value": 4.160006523132324,
+    "co2_value": 23.905681610107422
+  },
+  {
+    "temprature_value": 0.39745092391967773,
+    "humidity_value": 4.152931213378906,
+    "co2_value": 24.02498435974121
   }
 ]

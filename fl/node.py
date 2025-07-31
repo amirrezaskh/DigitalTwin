@@ -1,4 +1,5 @@
 import os
+import json
 import torch
 import warnings
 import requests
@@ -9,6 +10,7 @@ import pandas as pd
 from pathlib import Path
 import lightning.pytorch as pl
 from lightning.pytorch.tuner import Tuner
+from pytorch_forecasting.metrics import MultiLoss, RMSE
 from lightning.pytorch.loggers import TensorBoardLogger
 from pytorch_forecasting.data import MultiNormalizer, EncoderNormalizer
 from lightning.pytorch.callbacks import EarlyStopping, LearningRateMonitor
@@ -20,17 +22,18 @@ class Node:
         self.port = port
         self.targets = ["temprature_value", "humidity_value", "co2_value"]
 
-        self.max_encoder_length = 4 * 10
-        self.max_prediction_length = 4 * 2
+        self.max_encoder_length = 4 * 24
+        self.max_prediction_length = 4 * 3
 
         self.lr = 3e-4
-        self.epochs = 5
-        self.batch_size = 128
+        self.epochs = 20
+        self.batch_size = 64
 
         self.data_path = data_path
 
         cwd = os.path.dirname(__file__)
         model_name = f"node_{self.port-8000}"
+        self.losses_file = f"./losses/{model_name}.json"
         self.root_path = Path(__file__).resolve().parents[1]
         self.model_path = os.path.abspath(
             os.path.join(cwd, f"{self.root_path}/fl/models/{model_name}.pth")
@@ -40,14 +43,15 @@ class Node:
         self.model = TemporalFusionTransformer.from_dataset(
             self.train_dataset,
             learning_rate=self.lr,
-            hidden_size=16,
-            attention_head_size=1,
-            dropout=0.1,
-            loss=torch.nn.MSELoss(),
+            hidden_size=32,
+            attention_head_size=4,
+            dropout=0.2,
+            loss=MultiLoss([RMSE(), RMSE(), RMSE()]),
             output_size=[1, 1, 1],
             log_interval=10,
             reduce_on_plateau_patience=4,
         )
+        self.losses = []
 
     def get_data(self):
         df = pd.read_csv(self.data_path)
@@ -122,7 +126,6 @@ class Node:
             devices="auto",
             enable_model_summary=True,
             gradient_clip_val=0.1,
-            limit_train_batches=50,
             callbacks=[lr_logger, early_stop_callback],
             logger=logger,
         )
@@ -141,9 +144,26 @@ class Node:
             val_dataloaders=self.val_dataloader
         )
 
+        self.evaluate()
+        
         best_model_path = trainer.checkpoint_callback.best_model_path
         # torch.save(self.model.state_dict(), f"{self.root_path}/fl/models/node_{self.port-8000}.pth")
         requests.post("http://localhost:3000/api/model/", json={
             "id": f"model_{self.port-8000}",
             "path": best_model_path
         })
+    
+    def evaluate(self):
+        warnings.filterwarnings(
+            "ignore", message=".*does not have valid feature names.*")
+        predictions = self.model.predict(self.val_dataloader, return_y=True)
+        outputs = predictions.output
+        y = predictions.y
+        rmse = {}
+        for i in range(len(self.targets)):
+            rmse[self.targets[i]] = RMSE()(outputs[i], y[0][i]).item()
+        self.losses.append(rmse)
+        file = open(self.losses_file, "w")
+        file.write(json.dumps(self.losses))
+        file.close()
+

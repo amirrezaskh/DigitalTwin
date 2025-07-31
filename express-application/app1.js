@@ -10,7 +10,7 @@ const app = express();
 const jsonParser = bodyParser.json();
 const port = 3000;
 
-const rounds = 2;
+const rounds = 30;
 let currentRound = 0;
 const aggregatorPort = 8080;
 const numNodes = 8;
