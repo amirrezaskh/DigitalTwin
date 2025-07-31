@@ -13,17 +13,17 @@ from pytorch_lightning import Trainer
 from pathlib import Path
 
 sns.set(style="whitegrid")
-sns.set_context("paper", font_scale=1.6)          # Larger font for academic papers
+sns.set_context("paper", font_scale=1.2)          # Larger font for academic papers
 sns.set_style("whitegrid", {'axes.grid': True})   # Grid with clean background
 sns.set_palette("colorblind")                     # Colorblind-friendly colors
 
 plt.rcParams["figure.dpi"] = 300                  # Higher resolution for display
 plt.rcParams["savefig.dpi"] = 600                 # High resolution for saving
-plt.rcParams["font.family"] = "serif"             # Serif font for academic look
-plt.rcParams["axes.titlesize"] = 14
-plt.rcParams["axes.labelsize"] = 12
+# plt.rcParams["font.family"] = "serif"             # Serif font for academic look
+plt.rcParams["axes.titlesize"] = 10
+plt.rcParams["axes.labelsize"] = 10
 plt.rcParams["legend.fontsize"] = 10
-plt.rcParams["lines.linewidth"] = 2.0
+plt.rcParams["lines.linewidth"] = 1.3
 plt.rcParams["lines.markersize"] = 6
 plt.rcParams["grid.alpha"] = 0.3
 
@@ -180,9 +180,6 @@ def plot_prediction(
     # all true values for y of the first sample in batch
     encoder_targets = to_list(x["encoder_target"])
     decoder_targets = to_list(x["decoder_target"])
-
-    print(len(encoder_targets))
-    print(len(decoder_targets))
 
     y_raws = to_list(
         out["prediction"]
