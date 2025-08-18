@@ -1,0 +1,11 @@
+torch
+torchmetrics
+pandas
+numpy
+scikit-learn
+flask
+requests
+matplotlib
+seaborn
+pytorch-forecasting
+pytorch-lightning
